@@ -2,10 +2,10 @@ import webbrowser
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image   #FOR JPG image
-import datetime as dt           
-from tkcalendar import *
+import datetime as dt           #date time module
+from tkcalendar import *            #calender module
 from datetime import datetime as t
-from tkinter import messagebox as mb
+from tkinter import messagebox as mb     #for message box
 import pymysql
 
 
@@ -35,6 +35,9 @@ class IRCTC:            #class for IRCTC
         self.logo_2=PhotoImage(file='C:\Python38\logo-irctc-removebg-preview.png')
         self.lbl2=Label(R,image=self.logo_2)
         self.lbl2.place(relx=1,x=40,y=-1,anchor=NE)
+        
+        #Button Creation
+        
         self.login=Button(self.R,text='Login',width=7,height=1,bg='navy blue',fg='white',command=self.login,cursor='hand2')
         self.login.place(x=470,y=35)
         self.Reg=Button(self.R,text='Register',width=7,height=1,cursor='hand2')
@@ -71,6 +74,9 @@ class IRCTC:            #class for IRCTC
         self.lbl4.place(x=height/4,y=300)
         self.lbl5=Label(self.R,text='BOOK TICKET',relief='raised',borderwidth=4,font=('times new roman',18,'bold'),fg='navy blue')
         self.lbl5.place(x=height/2.25,y=350)
+        
+        #Entry widgets
+        
         self.e3=Entry(self.R)
         self.e3.place(x=height/4.7,y=400,width=200,height=30)
         self.f=Label(self.R,text='FROM',fg='white',font=('times new roman',10,'bold'),relief='raised',bg='blue')
@@ -83,6 +89,7 @@ class IRCTC:            #class for IRCTC
         self.g.place(x=height/4.7,y=530)
 
         #Combobox
+        
         self.e5=ttk.Combobox(self.R)
         self.e5['values']=('GENERAL','LADIES','LOWER BIRTH/SR.CITIZEN','DIVYANG','TATKAL','PREMIUM TATKAL')
         self.e5['state'] = 'readonly'
@@ -93,7 +100,9 @@ class IRCTC:            #class for IRCTC
         self.d.place(x=height/1.15,y=420)
         self.date=DateEntry(self.R,width=20,background='blue',foreground='black',font=('Arial',12,'bold'))
         self.date.place(x=height/1.3,y=450)
+        
         #Combobox 1
+        
         self.e6=ttk.Combobox(self.R)
         self.e6['values']=('All Classes','Exec.Chair Car(EC)','AC 2 Tier(2A)','First Class(FC)','AC 3 Tier(3A)','AC 3 Economy','AC Chair Car(CC)','Sleeper(SL)','Second Sitting(2S)')
         self.e6['state'] = 'readonly'
@@ -102,7 +111,10 @@ class IRCTC:            #class for IRCTC
         self.e6.place(x=height/1.3,y=520,width=200,height=30)                
         self.lbl4=Label(self.R,text='CHARTS / VACCANCY',relief='raised',borderwidth=3,font=('Arial',15,'bold'),bg='navy blue',fg='white')
         self.lbl4.place(x=height/1.5,y=300)
+        
+        
         #Check Box
+        
         self.chk_state=BooleanVar()
         self.chk_state.set(True)
         self.chk_state1=BooleanVar()
@@ -124,6 +136,7 @@ class IRCTC:            #class for IRCTC
         self.search.place(x=height/1.2,y=650)
 
 # Get value from user
+    
     def get(self):
         From=str(self.e3.get())
         To=str(self.e4.get())
@@ -134,33 +147,20 @@ class IRCTC:            #class for IRCTC
         C3=str(self.chk_state2.get())
         C4=str(self.chk_state3.get())
         D=str(self.date.get())
-        print(From)
-        print(To)
-        print(H)
-        print(I)
-        print(C1)
-        print(C2)
-        print(C3)
-        print(C4)
-        print(D)
-        
+            
       
         #print(height)
         #print(width)
+        
+        #Connect pymysql DB
+        
         db=pymysql.connect(host='localhost',user='root',passwd='',db='irctc')
         cur=db.cursor()
         cur.execute("insert into railways values ('"+ From +"','"+ To +"','"+ H +"','"+ D +"','"+ I +"',"+ C1 +","+ C2 +","+ C3 +","+ C4 +")")
         cur.execute('select * from railways')
         data=cur.fetchall()
         cur.execute('commit')
-        #f=open("C:\Python38\IRCTC.txt")
-        #f.write('----------------Booking Status-----------------')
-        #for i in data:
-         #   f.read(list(data))
-        #f.close()
         db.close()
-        #data=cur.fetchall()
-        #db.close()
         
         
     # Login info   
@@ -180,6 +180,9 @@ class IRCTC:            #class for IRCTC
         self.lbl3.place(x=3,y=47)
         self.sub=Button(self.parent,text='Submit',relief='raised',borderwidth=2,height=1,width=15,cursor='hand2',command=self.submit).place(x=170,y=100)
         self.parent.mainloop()
+
+        
+#Submit Button
 
 
     def submit(self):
@@ -213,6 +216,9 @@ def SUBMIT():
     #cur1.execute("insert into Login_Info values ('"+ use +"','"+ paw +"')")
     #cur1.execute('commit')
     #db1.close()    
+    
+    #Checking Username & Password
+    
     if (use=='VENGATESH S' and paw=='12345'):
         root=Toplevel()
         my=IRCTC(root)
